@@ -1,0 +1,47 @@
+apply plugin: 'war'
+apply plugin: 'appengine'
+
+def appId = "sk30012016"
+
+def appEmail = "dmytro.ieremieiev@gmail.com"
+def appengineVersion = "1.9.15"
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.21'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    appengineSdk "com.google.appengine:appengine-java-sdk:${appengineVersion}"
+    compile "javax.servlet:servlet-api:2.5"
+    compile "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
+    compile "com.google.appengine:appengine-endpoints:${appengineVersion}"
+    compile "com.google.appengine:appengine-endpoints-deps:${appengineVersion}"
+    compile "com.google.appengine:appengine-api-labs:${appengineVersion}"
+    testCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
+    compile "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
+    testCompile "com.google.appengine:appengine-testing:${appengineVersion}"
+    compile 'com.googlecode.objectify:objectify:5.0.3'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    testRuntime 'org.pegdown:pegdown:1.1.0'
+}
+
+appengine {
+    httpPort = 8888
+    downloadSdk = true
+
+    appcfg {
+        email = "${appEmail}"
+        password = '<please add password>'
+    }
+}
+
