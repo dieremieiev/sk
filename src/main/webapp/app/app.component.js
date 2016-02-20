@@ -7,7 +7,7 @@ function createAppComponent()
     selector: '.app-main',
     template: `
       <div>
-        <div class="app-top">SK v1.1.2</div>
+        <div class="app-top">SK v1.1.3</div>
         <div class="app-navbar">
           <nav>
             <ul>
@@ -15,7 +15,7 @@ function createAppComponent()
               <li><a [routerLink]="['URIEncoder']">URI encoder</a></li>
               <li><a [routerLink]="['Base64Decoder']">Base64 decoder</a></li>
               <li><a [routerLink]="['Base64Encoder']">Base64 encoder</a></li>
-              <li><a [routerLink]="['Timestamp']">Timestamp</a></li>
+              <li><a [routerLink]="['TimestampFormatter']">Timestamp</a></li>
               <li><a [routerLink]="['UUIDGenerator']">UUID generator</a></li>
             </ul>
           </nav>
@@ -46,27 +46,45 @@ function createBase64DecoderComponent()
       </p>
       <p>
         <label>Decoded text:</label>
-        <textarea cols="40" rows="5" readonly="readonly" placeholder="{{message}}">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly placeholder="{{message}}">{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.input    = null
-      this.inputOld = null
-      this.message  = null
-      this.result   = null
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.message    = null
+      this.result     = null
     },
 
     ngAfterContentChecked() { 
       if (this.input != this.inputOld) {
         this.evaluate()
         this.inputOld = this.input
+        this.copystatus = null
       }
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
@@ -99,27 +117,45 @@ function createBase64EncoderComponent()
       </p>
       <p>
         <label>Base64 encoded text:</label>
-        <textarea cols="40" rows="5" readonly="readonly" placeholder="{{message}}">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly placeholder="{{message}}">{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.input    = null
-      this.inputOld = null
-      this.message  = null
-      this.result   = null
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.message    = null
+      this.result     = null
     },
 
     ngAfterContentChecked() {
       if (this.input != this.inputOld) {
         this.evaluate()
         this.inputOld = this.input
+        this.copystatus = null
       }
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
@@ -137,7 +173,7 @@ function createBase64EncoderComponent()
   })
 }
 
-function createTimestampComponent()
+function createTimestampFormatterComponent()
 {
   return ng.core.Component({
     changeDetection: ng.core.ChangeDetectionStrategy.OnPush,
@@ -145,34 +181,52 @@ function createTimestampComponent()
         vc: new ng.core.ViewChildren('inputelement')
     },
     template: `
-      <h2>Base64 encoder</h2>
+      <h2>Timestamp formatter</h2>
       <p>
         <label>Timestamp, in milliseconds:</label>
         <textarea #inputelement cols="40" rows="5" [(ngModel)]="input"></textarea>
       </p>
       <p>
         <label>Date/time (ISO):</label>
-        <textarea cols="40" rows="5" readonly="readonly" placeholder="{{message}}">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly placeholder="{{message}}">{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.input    = null
-      this.inputOld = null
-      this.message  = null
-      this.result   = null
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.message    = null
+      this.result     = null
     },
 
     ngAfterContentChecked() {
       if (this.input != this.inputOld) {
         this.evaluate()
         this.inputOld = this.input
+        this.copystatus = null
       }
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
@@ -209,27 +263,45 @@ function createURIDecoderComponent()
       </p>
       <p>
         <label>URI decoded:</label>
-        <textarea cols="40" rows="5" readonly="readonly" placeholder="{{message}}">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly placeholder="{{message}}">{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.input    = null
-      this.inputOld = null
-      this.message  = null
-      this.result   = null
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.message    = null
+      this.result     = null
     },
 
     ngAfterContentChecked() {
       if (this.input != this.inputOld) {
         this.evaluate()
         this.inputOld = this.input
+        this.copystatus = null
       }
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
@@ -262,27 +334,45 @@ function createURIEncoderComponent()
       </p>
       <p>
         <label>URI encoded:</label>
-        <textarea cols="40" rows="5" readonly="readonly" placeholder="{{message}}">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly placeholder="{{message}}">{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.input    = null
-      this.inputOld = null
-      this.message  = null
-      this.result   = null
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.message    = null
+      this.result     = null
     },
 
     ngAfterContentChecked() {
       if (this.input != this.inputOld) {
         this.evaluate()
         this.inputOld = this.input
+        this.copystatus = null
       }
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
@@ -305,31 +395,49 @@ function createUUIDGeneratorComponent()
   return ng.core.Component({
     changeDetection: ng.core.ChangeDetectionStrategy.OnPush,
     queries: {
-        vc: new ng.core.ViewChildren('button')
+        vc: new ng.core.ViewChildren('inputelement')
     },
     template: `
       <h2>UUID generator</h2>
       <p>
-        <input #button type="button" value="Generate" (click)="evaluate()">
+        <input #inputelement type="button" value="Generate" (click)="evaluate()">
       </p>
       <p>
         <label>UUID:</label>
-        <textarea cols="40" rows="5" readonly="readonly">{{result}}</textarea>
+        <textarea #inputelement cols="40" rows="5" readonly>{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
       </p>
     `
   })
   .Class({
     constructor: function() {
-      this.result = null
+      this.copystatus = null
+      this.result     = null
       this.evaluate()
     },
 
     ngAfterViewInit() {
-      this.vc.first.nativeElement.focus();
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
     },
 
     evaluate() {
       this.result = this.generateUUID()
+      this.copystatus = null
     },
 
     generateUUID() {
@@ -350,11 +458,11 @@ function createUUIDGeneratorComponent()
 
 (function(app) {
   app.AppComponent = ng.router.RouteConfig([
-    { path: '/base64decoder', component: createBase64DecoderComponent(), name: 'Base64Decoder' },
-    { path: '/base64encoder', component: createBase64EncoderComponent(), name: 'Base64Encoder' },
-    { path: '/timestamp'    , component: createTimestampComponent()    , name: 'Timestamp'     },
-    { path: '/uridecoder'   , component: createURIDecoderComponent()   , name: 'URIDecoder', useAsDefault: true },
-    { path: '/uriencoder'   , component: createURIEncoderComponent()   , name: 'URIEncoder'    },
-    { path: '/uuidgenerator', component: createUUIDGeneratorComponent(), name: 'UUIDGenerator' }
-  ])(createAppComponent());
+    { path: '/base64decoder', component: createBase64DecoderComponent()     , name: 'Base64Decoder'      },
+    { path: '/base64encoder', component: createBase64EncoderComponent()     , name: 'Base64Encoder'      },
+    { path: '/timestamp'    , component: createTimestampFormatterComponent(), name: 'TimestampFormatter' },
+    { path: '/uridecoder'   , component: createURIDecoderComponent()        , name: 'URIDecoder', useAsDefault: true },
+    { path: '/uriencoder'   , component: createURIEncoderComponent()        , name: 'URIEncoder'         },
+    { path: '/uuidgenerator', component: createUUIDGeneratorComponent()     , name: 'UUIDGenerator'      }
+  ])(createAppComponent())
 })(window.app || (window.app = {}))
