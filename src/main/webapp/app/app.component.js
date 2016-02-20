@@ -7,7 +7,7 @@ function createAppComponent()
     selector: '.app-main',
     template: `
       <div>
-        <div class="app-top">SK v1.01</div>
+        <div class="app-top">SK v1.1.2</div>
         <div class="app-navbar">
           <nav>
             <ul>
