@@ -4,17 +4,18 @@ function createAppComponent()
 {
   return ng.core.Component({
     directives: [ng.router.ROUTER_DIRECTIVES],
-    selector: 'my-app',
+    selector: '.app-main',
     template: `
       <div>
+        <div class="app-top">SK v1.01</div>
         <div class="app-navbar">
           <nav>
             <ul>
+              <li><a [routerLink]="['URIDecoder']">URI decoder</a></li>
+              <li><a [routerLink]="['URIEncoder']">URI encoder</a></li>
               <li><a [routerLink]="['Base64Decoder']">Base64 decoder</a></li>
               <li><a [routerLink]="['Base64Encoder']">Base64 encoder</a></li>
               <li><a [routerLink]="['Timestamp']">Timestamp</a></li>
-              <li><a [routerLink]="['URIDecoder']">URI decoder</a></li>
-              <li><a [routerLink]="['URIEncoder']">URI encoder</a></li>
               <li><a [routerLink]="['UUIDGenerator']">UUID generator</a></li>
             </ul>
           </nav>
@@ -352,8 +353,8 @@ function createUUIDGeneratorComponent()
     { path: '/base64decoder', component: createBase64DecoderComponent(), name: 'Base64Decoder' },
     { path: '/base64encoder', component: createBase64EncoderComponent(), name: 'Base64Encoder' },
     { path: '/timestamp'    , component: createTimestampComponent()    , name: 'Timestamp'     },
+    { path: '/uridecoder'   , component: createURIDecoderComponent()   , name: 'URIDecoder', useAsDefault: true },
     { path: '/uriencoder'   , component: createURIEncoderComponent()   , name: 'URIEncoder'    },
-    { path: '/uridecoder'   , component: createURIDecoderComponent()   , name: 'URIDecoder'    },
     { path: '/uuidgenerator', component: createUUIDGeneratorComponent(), name: 'UUIDGenerator' }
   ])(createAppComponent());
 })(window.app || (window.app = {}))
