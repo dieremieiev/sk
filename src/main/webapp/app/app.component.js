@@ -7,7 +7,7 @@ function createAppComponent()
     selector: '.app-main',
     template: `
       <div>
-        <div class="app-top">SK v1.1.3</div>
+        <div class="app-top">SK v1.1.4</div>
         <div class="app-navbar">
           <nav>
             <ul>
@@ -15,6 +15,8 @@ function createAppComponent()
               <li><a [routerLink]="['URIEncoder']">URI encoder</a></li>
               <li><a [routerLink]="['Base64Decoder']">Base64 decoder</a></li>
               <li><a [routerLink]="['Base64Encoder']">Base64 encoder</a></li>
+              <li><a [routerLink]="['TextLowercase']">Text lowercase</a></li>
+              <li><a [routerLink]="['TextUppercase']">Text uppercase</a></li>
               <li><a [routerLink]="['TimestampFormatter']">Timestamp</a></li>
               <li><a [routerLink]="['UUIDGenerator']">UUID generator</a></li>
             </ul>
@@ -169,6 +171,136 @@ function createBase64EncoderComponent()
       } catch (e) {
         this.message = 'Input string is not Base64 decoded'
       }
+    }
+  })
+}
+
+function createTextLowercaseComponent()
+{
+  return ng.core.Component({
+    changeDetection: ng.core.ChangeDetectionStrategy.OnPush,
+    queries: {
+        vc: new ng.core.ViewChildren('inputelement')
+    },
+    template: `
+      <h2>Text to Lowercase</h2>
+      <p>
+        <label>Text:</label>
+        <textarea #inputelement cols="40" rows="5" [(ngModel)]="input"></textarea>
+      </p>
+      <p>
+        <label>Lowercase:</label>
+        <textarea #inputelement cols="40" rows="5" readonly>{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
+      </p>
+    `
+  })
+  .Class({
+    constructor: function() {
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.result     = null
+    },
+
+    ngAfterContentChecked() {
+      if (this.input != this.inputOld) {
+        this.evaluate()
+        this.inputOld = this.input
+        this.copystatus = null
+      }
+    },
+
+    ngAfterViewInit() {
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
+    },
+
+    evaluate() {
+      this.result = null
+
+      if (this.input == null || this.input.length == 0) { return }
+
+      this.result = this.input.toLowerCase()
+    }
+  })
+}
+
+function createTextUppercaseComponent()
+{
+  return ng.core.Component({
+    changeDetection: ng.core.ChangeDetectionStrategy.OnPush,
+    queries: {
+        vc: new ng.core.ViewChildren('inputelement')
+    },
+    template: `
+      <h2>Text to Uppercase</h2>
+      <p>
+        <label>Text:</label>
+        <textarea #inputelement cols="40" rows="5" [(ngModel)]="input"></textarea>
+      </p>
+      <p>
+        <label>Uppercase:</label>
+        <textarea #inputelement cols="40" rows="5" readonly>{{result}}</textarea>
+      </p>
+      <p>
+        <input #button type="button" value="Copy result to clipboard" (click)="copyToClipboard()" [disabled]="!result">
+        <span class="copystatus">{{copystatus}}</span>
+      </p>
+    `
+  })
+  .Class({
+    constructor: function() {
+      this.copystatus = null
+      this.input      = null
+      this.inputOld   = null
+      this.result     = null
+    },
+
+    ngAfterContentChecked() {
+      if (this.input != this.inputOld) {
+        this.evaluate()
+        this.inputOld = this.input
+        this.copystatus = null
+      }
+    },
+
+    ngAfterViewInit() {
+      this.vc.first.nativeElement.focus()
+    },
+
+    copyToClipboard() {
+      this.vc.last.nativeElement.select()
+
+      if (document.execCommand('copy')) {
+        this.copystatus = '(copied)'
+      } else {
+        this.copystatus = '(error!)'
+      }
+
+      this.vc.first.nativeElement.focus()
+    },
+
+    evaluate() {
+      this.result = null
+
+      if (this.input == null || this.input.length == 0) { return }
+
+      this.result = this.input.toUpperCase()
     }
   })
 }
@@ -460,6 +592,8 @@ function createUUIDGeneratorComponent()
   app.AppComponent = ng.router.RouteConfig([
     { path: '/base64decoder', component: createBase64DecoderComponent()     , name: 'Base64Decoder'      },
     { path: '/base64encoder', component: createBase64EncoderComponent()     , name: 'Base64Encoder'      },
+    { path: '/textlowercase', component: createTextLowercaseComponent()     , name: 'TextLowercase'      },
+    { path: '/textuppercase', component: createTextUppercaseComponent()     , name: 'TextUppercase'      },
     { path: '/timestamp'    , component: createTimestampFormatterComponent(), name: 'TimestampFormatter' },
     { path: '/uridecoder'   , component: createURIDecoderComponent()        , name: 'URIDecoder', useAsDefault: true },
     { path: '/uriencoder'   , component: createURIEncoderComponent()        , name: 'URIEncoder'         },
