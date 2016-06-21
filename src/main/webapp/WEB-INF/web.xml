@@ -1,2 +1,11 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <servlet>
+        <servlet-name>telegramWebHook</servlet-name>
+        <servlet-class>net.hrobotics.sk.bot.SKBotServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>telegramWebHook</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>
